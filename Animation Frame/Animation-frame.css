@@ -1,0 +1,23 @@
+
+
+html {
+    box-sizing: border-box;
+  }
+  
+  
+  body {
+    background-color: rgb(0, 0, 0);
+    font-family: Sans-Serif;
+  }
+  
+  canvas {
+    background-color: #fff;
+    border: 1px solid black;
+    width: 400px;
+    height: 300px;
+    display: block;
+   margin-left: 35%;
+   margin-top: 15%;
+  }
+  
+

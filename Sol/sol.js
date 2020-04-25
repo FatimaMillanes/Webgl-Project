@@ -76,18 +76,6 @@ for(i = 0; i < circleInfo.vertices; i++){
     circleInfo.color.push(1, 1, 0);
 }
 
-const triangleCoords = [
-    -0.55, 0.0, 
-    -0.535, 0.05, 
-    -0.57, 0.1
-];
-
-const vertexColor = [
-    1, 1, 0, 
-    1, 1, 0, 
-    1, 1, 0
-];
-
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
@@ -105,3 +93,5 @@ gl.vertexAttribPointer(color, 3, gl.FLOAT, gl.FALSE, 0, 0);
 
 gl.drawArrays(gl.TRIANGLE_FAN, 0, circleInfo.vertices);
 gl.drawArrays(gl.SUN_TRIANGLES, 0, circleInfo.vertices);
+
+

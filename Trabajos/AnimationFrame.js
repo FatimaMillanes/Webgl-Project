@@ -65,6 +65,7 @@ var vertexColor = [
     Math.random(), Math.random(), Math.random(), 
     Math.random(), Math.random(), Math.random(), 
     Math.random(), Math.random(), Math.random()
+    
 ];
 
 const positionBuffer = gl.createBuffer();
@@ -84,10 +85,16 @@ gl.vertexAttribPointer(color, 3, gl.FLOAT, gl.FALSE, 0, 0);
 
 gl.drawArrays(gl.TRIANGLES, 0, 3);
 
+/*function render(time) {
+    time *= 0.001; }
+*/
+
 // Copy pastee
 var stop = false;
 var animation;
  
+
+
 function loop(){
     // Animation Movements
     console.log("Mi Animation Frame sirve chuypancho");
@@ -95,8 +102,9 @@ function loop(){
         Math.random(), Math.random(), Math.random(),
         Math.random(), Math.random(), Math.random(),
         Math.random(), Math.random(), Math.random()
+        
     ];
-    
+    //requestAnimationFrame(render)
 	animation = window.requestAnimationFrame(loop);
 }
 

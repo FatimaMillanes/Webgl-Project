@@ -1,0 +1,12 @@
+
+  
+  body {
+    background-color: black;
+    font-family: Sans-Serif;
+    color:white;
+  }
+  
+#glcanvas{
+    margin-left: 20%;
+    margin-top: -10%;
+}
