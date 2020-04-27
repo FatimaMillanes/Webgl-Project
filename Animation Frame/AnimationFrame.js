@@ -1,20 +1,21 @@
 const canvas = document.getElementById('glcanvas');
 const gl = canvas.getContext('webgl2');
 
-
-gl.clearColor(0, 0, 0, 1);
-gl.clear(gl.COLOR_BUFFER_BIT);
-
+const render = ()=>{
+    gl.clearColor(0, 0, 0, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+}
 
 const vertexShader = `#version 300 es
     precision mediump float;
     in vec2 position;
     in vec3 color;
     out vec3 vColor;
+    uniform float iTime;
     void main()
     {
         gl_Position = vec4(position, 0, 1);
-        vColor = color;
+        vColor = vec3(abs(sin(iTime)), color.y, color.z);
     }
 `;
 
@@ -56,40 +57,55 @@ if(!gl.getProgramParameter(program, gl.LINK_STATUS)){
 gl.useProgram(program);
 
 const triangleCoords = [
-    -0.2, -0.2, 
-    0.2, -0.2, 
-    0.0, 0.2
+    -0.5, -0.5, 
+    0.5, -0.5, 
+    -0.5, 0.5, 
+    0.5, 0.5
 ];
 
-var vertexColor = [
-    Math.random(), Math.random(), Math.random(), 
-    Math.random(), Math.random(), Math.random(), 
+const vertexColor = [
+    Math.random(), Math.random(), Math.random(),
+    Math.random(), Math.random(), Math.random(),
+    Math.random(), Math.random(), Math.random(),
     Math.random(), Math.random(), Math.random()
-    
 ];
 
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
-gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleCoords), gl.STATIC_DRAW);
-const position = gl.getAttribLocation(program, 'position');
-gl.enableVertexAttribArray(position);
-gl.vertexAttribPointer(position, 2, gl.FLOAT, gl.FALSE, 0, 0);
+const now = Date.now();
 
-gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColor), gl.STATIC_DRAW);
-const color = gl.getAttribLocation(program, 'color');
-gl.enableVertexAttribArray(color);
-gl.vertexAttribPointer(color, 3, gl.FLOAT, gl.FALSE, 0, 0);
+const update = ()=>{
 
-gl.drawArrays(gl.TRIANGLES, 0, 3);
+    render();
 
-/*function render(time) {
-    time *= 0.001; }
-*/
+    const deltaTime = Date.now() - now;
 
-// Copy pastee
+    console.log(deltaTime);
+
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleCoords), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, gl.FALSE, 0, 0);
+
+    const iTime = gl.getUniformLocation(program, 'iTime');
+    gl.uniform1f(iTime, deltaTime / 1000);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColor), gl.STATIC_DRAW);
+    const color = gl.getAttribLocation(program, 'color');
+    gl.enableVertexAttribArray(color);
+    gl.vertexAttribPointer(color, 3, gl.FLOAT, gl.FALSE, 0, 0);
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    requestAnimationFrame(update, 1000 / 60);
+}
+
+requestAnimationFrame(update);
+/*
 var stop = false;
 var animation;
  
@@ -97,7 +113,7 @@ var animation;
 
 function loop(){
     // Animation Movements
-    console.log("Mi Animation Frame sirve chuypancho");
+    console.log("Animation Frame");
     vertexColor[
         Math.random(), Math.random(), Math.random(),
         Math.random(), Math.random(), Math.random(),
@@ -126,4 +142,4 @@ glcanvas.addEventListener(
     "click", function(){
         (stop == true) ? Start() : Stop();
     }, false
-)
+)*/
